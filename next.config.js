@@ -1,6 +1,22 @@
-const path = require('path')
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true'
+})
 
-module.exports = {
+module.exports = withBundleAnalyzer({
+  exportPathMap: async function () {
+    return {
+      '/': {
+        page: '/'
+      },
+      '/about': {
+        page: '/about'
+      }
+    }
+  },
+  images: {
+    loader: 'imgix',
+    path: ''
+  },
   webpack: (config, { dev }) => {
     // Perform customizations to webpack config
 
@@ -14,4 +30,4 @@ module.exports = {
     // Important: return the modified config
     return config
   }
-}
+})
